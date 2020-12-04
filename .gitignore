@@ -1,0 +1,14 @@
+.DS_Store
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+output
+secrets
+.vscode
+.vs
+.idea
+.env
+*.user
+*.suo
