@@ -37,3 +37,48 @@ ENTRYPOINT ["dotnet", "DockerApi.dll"]
 6. Docker image is now ready to deploy. The folder structure in the container image should look like:
 
 <img src="https://user-images.githubusercontent.com/40652401/101164727-60b0e000-369a-11eb-8ea2-1baf4581520c.png" width="819" height="357" />
+
+## Pushing image to docker hub
+Run this command to manually push the image to docker hub. You will have to login to your docker hub account before you can push. Note: This process will be automated later
+Command: ***docker push nks33/dockerapi***
+
+## Provisioning infrastructure using Terraform
+Add a new file with name main.tf.
+```docker
+# Define provider
+provider "azurerm" {
+    version = "~> 2.13.0"
+    features {}
+}
+
+# Create resource group
+resource "azurerm_resource_group" "tf_rg" {
+  name                  = "docker-demo-rg"
+  location              = "Australia East"
+}
+
+# Create container
+resource "azurerm_container_group" "tf_container_grp" {
+  name                  = "docker-demo-container-grp"
+  location              = azurerm_resource_group.tf_rg.location
+  resource_group_name   = azurerm_resource_group.tf_rg.name
+  ip_address_type       = "public"
+  dns_name_label        = "dockerdemo"
+  os_type               = "Linux"
+  container {
+    name                = "dockerdemoapi"
+    image               = "nks33/dockerapi"
+    cpu                 = "1"
+    memory              = "1"
+    ports{
+        port            = 80
+        protocol        = "TCP" 
+    }
+  }
+}
+```
+1. Login to Azure account using: ***az login***. Prompts a popup for interactive login. You can also setup service principal following the steps: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret. 
+*Note: Restart VSCode after setting up envionment variables.*
+2. Initialize terraform: ***terraform init***
+3. Review terraform plan: ***terraform plan***
+4. Apply terraform plan: ***terraform apply***. This step creates resources into azure account
