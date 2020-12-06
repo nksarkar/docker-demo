@@ -12,3 +12,6 @@ secrets
 .env
 *.user
 *.suo
+*.tfstate
+*.tfstate.backup
+.terraform/
