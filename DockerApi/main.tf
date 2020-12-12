@@ -22,6 +22,11 @@ resource "azurerm_resource_group" "tf_rg" {
   location              = "Australia East"
 }
 
+variable "ImageBuild" {
+  type        = string
+  description = "Latest docker image build number"
+}
+
 resource "azurerm_container_group" "tf_container_grp" {
   name                  = "docker-demo-container-grp"
   location              = azurerm_resource_group.tf_rg.location
@@ -31,7 +36,7 @@ resource "azurerm_container_group" "tf_container_grp" {
   os_type               = "Linux"
   container {
     name                = "dockerdemoapi"
-    image               = "nks33/dockerapi"
+    image               = "nks33/dockerapi:${var.imageBuild}"
     cpu                 = "1"
     memory              = "1"
     ports{
