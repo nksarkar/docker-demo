@@ -22,7 +22,7 @@ resource "azurerm_resource_group" "tf_rg" {
   location              = "Australia East"
 }
 
-variable "ImageBuild" {
+variable "imageBuild" {
   type        = string
   description = "Latest docker image build number"
 }
