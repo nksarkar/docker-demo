@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /app
 
-COPY . .
+COPY . ./
 
 RUN dotnet restore DockerApi.csproj
 RUN dotnet publish DockerApi.csproj -c Release -o out
