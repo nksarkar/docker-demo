@@ -3,8 +3,8 @@ WORKDIR /app
 
 COPY . ./
 
-RUN dotnet restore DockerApi.csproj
-RUN dotnet publish DockerApi.csproj -c Release -o out
+RUN dotnet restore DockerApi/DockerApi.csproj
+RUN dotnet publish DockerApi/DockerApi.csproj -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS final
 WORKDIR /api
