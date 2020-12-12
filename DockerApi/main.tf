@@ -4,6 +4,14 @@ terraform {
       version = "~> 2.13.0"
     }
   }
+
+  # Storage account required for tf state file
+  backend "azurerm" {
+    resource_group_name   = "tf_rg_blobstore"
+    storage_account_name  = "tfstoragenks33"
+    container_name        = "tfstate"
+    key                   = "terraform.tfstate"
+  }
 }
 provider "azurerm" {
     features {}
